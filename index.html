@@ -81,10 +81,119 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
+        /* Панель управления */
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border 0.3s ease;
+        }
+
+        .search-box input:focus {
+            border-color: #1a2a6c;
+            outline: none;
+        }
+
+        .sort-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .sort-btn {
+            padding: 0.8rem 1.5rem;
+            background: white;
+            border: 2px solid #1a2a6c;
+            color: #1a2a6c;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .sort-btn:hover {
+            background: #1a2a6c;
+            color: white;
+        }
+
+        .quiz-section {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            margin-top: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .quiz-section h3 {
+            color: #1a2a6c;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+
+        .quiz-question {
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .quiz-question p {
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .quiz-option {
+            padding: 0.8rem 1.5rem;
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quiz-option:hover {
+            border-color: #1a2a6c;
+            background: #e8eaf6;
+        }
+
+        .quiz-option.correct {
+            background: #4caf50;
+            color: white;
+            border-color: #4caf50;
+        }
+
+        .quiz-option.wrong {
+            background: #f44336;
+            color: white;
+            border-color: #f44336;
+        }
+
         .heroes-grid, .events-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 2rem;
+            margin-top: 1rem;
         }
 
         .hero-card, .event-card {
@@ -152,6 +261,53 @@
             margin-bottom: 0.5rem;
         }
 
+        /* Кнопки для карточек */
+        .card-buttons {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .like-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            padding: 0.5rem 1rem;
+            background: #f8f9fa;
+            border: 2px solid #1a2a6c;
+            border-radius: 5px;
+            color: #1a2a6c;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .like-btn:hover {
+            background: #1a2a6c;
+            color: white;
+        }
+
+        .like-btn.liked {
+            background: #1a2a6c;
+            color: white;
+        }
+
+        .speak-btn {
+            padding: 0.5rem 1rem;
+            background: #f8f9fa;
+            border: 2px solid #b21f1f;
+            border-radius: 5px;
+            color: #b21f1f;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .speak-btn:hover {
+            background: #b21f1f;
+            color: white;
+        }
+
         footer {
             background-color: #1a2a6c;
             color: white;
@@ -172,6 +328,15 @@
             .tab {
                 padding: 0.8rem 1rem;
             }
+
+            .controls {
+                flex-direction: column;
+            }
+
+            .sort-buttons {
+                width: 100%;
+                justify-content: center;
+            }
         }
     </style>
 </head>
@@ -184,17 +349,36 @@
     <div class="nav-tabs">
         <div class="tab active" data-tab="heroes">Твои герои, Россия</div>
         <div class="tab" data-tab="memory">Помним, Гордимся, Наследуем</div>
+        <div class="tab" data-tab="quiz">Проверь себя</div>
     </div>
 
     <section id="heroes" class="section active">
-        <div class="heroes-grid">
+        <div class="controls">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="🔍 Найти героя...">
+            </div>
+            <div class="sort-buttons">
+                <button class="sort-btn" onclick="sortHeroes('asc')">А-Я</button>
+                <button class="sort-btn" onclick="sortHeroes('desc')">Я-А</button>
+            </div>
+        </div>
+        <div class="heroes-grid" id="heroesGrid">
             <!-- Герои будут добавлены через JavaScript -->
         </div>
     </section>
 
     <section id="memory" class="section">
-        <div class="events-grid">
+        <div class="events-grid" id="eventsGrid">
             <!-- События будут добавлены через JavaScript -->
+        </div>
+    </section>
+
+    <section id="quiz" class="section">
+        <div class="quiz-section">
+            <h3>📝 Проверь свои знания о героях России</h3>
+            <div id="quizContainer">
+                <!-- Вопросы будут добавлены через JavaScript -->
+            </div>
         </div>
     </section>
 
@@ -203,116 +387,230 @@
     </footer>
 
     <script>
-        // ГЕРОИ РОССИИ - 21 человек, у каждого 5 предложений
+        // Данные о героях
         const heroesData = [
             {
                 name: "Александр Невский",
                 description: "Великий русский полководец и святой. Прославился победами над шведами в Невской битве. Разгромил тевтонских рыцарей в Ледовом побоище. Умело защищал русские земли от западных захватчиков. Канонизирован Русской православной церковью.",
-                image: "images/aleksandr-nevskiy.jpg"
+                image: "images/aleksandr-nevskiy.jpg",
+                likes: 0
             },
             {
                 name: "Дмитрий Донской",
                 description: "Великий князь Московский и Владимирский. Возглавил объединённые русские войска в Куликовской битве. Впервые нанёс сокрушительное поражение Золотой Орде. Способствовал укреплению Московского княжества. Построил белокаменный Московский Кремль.",
-                image: "images/dmitriy-donskoy.jpg"
+                image: "images/dmitriy-donskoy.jpg",
+                likes: 0
             },
             {
                 name: "Василий Маргелов",
                 description: "Советский военачальник, генерал армии. Создатель современных Воздушно-десантных войск. Участник Великой Отечественной войны. Проявил личное мужество и полководческий талант. Награждён многочисленными орденами и медалями.",
-                image: "images/vasiliy-margelov.jpg"
+                image: "images/vasiliy-margelov.jpg",
+                likes: 0
             },
             {
                 name: "Михаил Калашников",
-                description: "Выдающийся советский и российский конструктор стрелкового оружия. Создатель знаменитого автомата Калашникова. Генерал-лейтенант, доктор технических наук. Дважды Герой Социалистического Труда. Его изобретение стало самым распространённым стрелковым оружием в мире.",
-                image: "images/mihail-kalashnikov.jpg"
+                description: "Выдающийся советский и российский конструктор стрелкового оружия. Создатель знаменитого автомата Калашникова. Генерал-лейтенант, доктор технических наук. Дважды Герой Социалистического Труда. Его изобретение стало самым распространённым в мире.",
+                image: "images/mihail-kalashnikov.jpg",
+                likes: 0
             },
             {
                 name: "Пётр I",
-                description: "Великий русский царь и первый император России. Провёл масштабные реформы, превратившие Россию в мощную европейскую державу. Основатель Санкт-Петербурга и российского флота. Победил Швецию в Северной войне. Создал регулярную армию по европейскому образцу.",
-                image: "images/petr-1.jpg"
+                description: "Великий русский царь и первый император России. Провёл масштабные реформы, превратившие Россию в мощную европейскую державу. Основатель Санкт-Петербурга и российского флота. Победил Швецию в Северной войне. Создал регулярную армию.",
+                image: "images/petr-1.jpg",
+                likes: 0
             },
             {
                 name: "Екатерина II",
-                description: "Великая российская императрица немецкого происхождения. Провела множество реформ в духе просвещённого абсолютизма. Значительно расширила территорию Российской империи. Покровительствовала искусствам и наукам. В её честь названа эпоха 'Золотого века' русского дворянства.",
-                image: "images/ekaterina-2.jpg"
-            },
-            {
-                name: "Сергей Королёв",
-                description: "Выдающийся советский учёный, конструктор ракетно-космической техники. Основоположник практической космонавтики. Под его руководством был запущен первый искусственный спутник Земли. Осуществлён первый полёт человека в космос. Дважды Герой Социалистического Труда.",
-                image: "images/sergey-korolev.jpg"
+                description: "Великая российская императрица. Провела множество реформ в духе просвещённого абсолютизма. Значительно расширила территорию Российской империи. Покровительствовала искусствам и наукам. В её честь названа эпоха 'Золотого века' русского дворянства.",
+                image: "images/ekaterina-2.jpg",
+                likes: 0
             },
             {
                 name: "Юрий Гагарин",
-                description: "Первый человек в мировой истории, совершивший полёт в космическое пространство. Герой Советского Союза, кавалер высших знаков отличия многих государств. Его полёт на корабле 'Восток-1' стал триумфом советской науки. Погиб в авиационной катастрофе при выполнении тренировочного полёта. Его улыбка стала символом целой эпохи.",
-                image: "images/yuriy-gagarin.jpg"
-            },
-            {
-                name: "Михаил Ломоносов",
-                description: "Великий русский учёный-энциклопедист, поэт и художник. Основатель Московского университета. Сделал важные открытия в химии, физике, астрономии. Возродил искусство мозаики в России. Считается одним из создателей современного русского литературного языка.",
-                image: "images/mihail-lomonosov.jpg"
-            },
-            {
-                name: "Александр Пушкин",
-                description: "Величайший русский поэт, драматург и прозаик. Создатель современного русского литературного языка. Автор бессмертных произведений 'Евгений Онегин', 'Капитанская дочка'. Написал множество стихотворений, ставших классикой. Погиб на дуэли в расцвете творческих сил.",
-                image: "images/aleksandr-pushkin.jpg"
-            },
-            {
-                name: "Валентина Терешкова",
-                description: "Первая в мире женщина-космонавт. Герой Советского Союза, генерал-майор авиации. Совершила полёт в космос на корабле 'Восток-6' в 1963 году. Активно занималась общественной и политической деятельностью. Является почётным гражданином многих городов России.",
-                image: "images/valentina-tereshkova.jpg"
-            },
-            {
-                name: "Лев Яшин",
-                description: "Легендарный советский футбольный вратарь. Олимпийский чемпион 1956 года и чемпион Европы 1960 года. Единственный вратарь в истории, получивший 'Золотой мяч'. Сыграл 74 матча за сборную СССР. Считается одним из лучших вратарей в истории футбола.",
-                image: "images/lev-yashin.jpg"
-            },
-            {
-                name: "Дмитрий Менделеев",
-                description: "Великий русский учёный-энциклопедист. Создатель периодической системы химических элементов. Автор фундаментальных исследований в области химии, физики, метрологии. Профессор Санкт-Петербургского университета. Его открытие стало основой современной химии.",
-                image: "images/dmitriy-mendeleev.jpg"
-            },
-            {
-                name: "Дамир Юсупов",
-                description: "Герой России, пилот гражданской авиации. Совершил подвиг, посадив пассажирский самолет после столкновения с птицами. Спас жизни 233 пассажиров и членов экипажа. Проявил высочайший профессионализм и хладнокровие. Стал символом мужества российских пилотов.",
-                image: "images/damir-yusupov.jpg"
-            },
-            {
-                name: "Александр Суворов",
-                description: "Великий русский полководец, не проигравший ни одного сражения. Генералиссимус российских сухопутных и морских сил. Разработал собственную военную теорию. Прославился победами в русско-турецких войнах. Автор знаменитого труда 'Наука побеждать'.",
-                image: "images/aleksandr-suvorov.jpg"
-            },
-            {
-                name: "Михаил Кутузов",
-                description: "Выдающийся русский полководец, генерал-фельдмаршал. Главнокомандующий русской армией во время Отечественной войны 1812 года. Разработал и успешно реализовал стратегию против Наполеона. Прославился Бородинским сражением и Тарутинским манёвром. Спас Россию от французского нашествия.",
-                image: "images/mihail-kutuzov.jpg"
-            },
-            {
-                name: "Роман Филипов",
-                description: "Герой России, военный лётчик. Погиб при выполнении боевого задания в Сирии. Когда его самолет был подбит, он до последнего управлял машиной. Уничтожил важные объекты противника. Проявил невероятное мужество и самоотверженность.",
-                image: "images/roman-filipov.jpg"
-            },
-            {
-                name: "Магомед Нурбагандов",
-                description: "Герой России, полицейский из Дагестана. Погиб при исполнении служебных обязанностей. Проявил невероятное мужество, отказавшись призывать коллег к сотрудничеству с боевиками. Его последние слова 'Работайте, братья!' стали символом мужества. Посмертно награждён званием Героя России.",
-                image: "images/magomed-nurbagandov.jpg"
-            },
-            {
-                name: "Георгий Жуков",
-                description: "Выдающийся советский полководец, Маршал Советского Союза. Четырежды Герой Советского Союза. Один из главных творцов Победы в Великой Отечественной войне. Командовал войсками в битвах под Москвой, Сталинградом, Курском. Принимал Парад Победы на Красной площади в 1945 году.",
-                image: "images/georgiy-zhukov.jpg"
-            },
-            {
-                name: "Дмитрий Карбышев",
-                description: "Герой Советского Союза, генерал-лейтенант инженерных войск. Участник русско-японской, Первой мировой и Великой Отечественной войн. Попав в плен, отказался сотрудничать с нацистами. Зверски замучен в концлагере Маутхаузен. Стал символом стойкости и верности воинской присяге.",
-                image: "images/dmitriy-karbyshev.jpg"
-            },
-            {
-                name: "Владимир Жога",
-                description: "Герой России, военный комендант Мариуполя. Погиб при выполнении боевой задачи во время специальной военной операции. Проявил личное мужество и высокий профессионализм. Награждён званием Героя Российской Федерации посмертно. Стал символом мужества российских военных.",
-                image: "images/vladimir-zhoga.jpg"
+                description: "Первый человек в мировой истории, совершивший полёт в космическое пространство. Герой Советского Союза. Его полёт на корабле 'Восток-1' стал триумфом советской науки. Погиб в авиационной катастрофе при выполнении тренировочного полёта. Его улыбка стала символом целой эпохи.",
+                image: "images/yuriy-gagarin.jpg",
+                likes: 0
             }
         ];
 
-        // СОБЫТИЯ - 10 событий, у каждого 5 предложений
+        // Данные для викторины
+        const quizData = [
+            {
+                question: "Кто победил в Ледовом побоище?",
+                options: ["Александр Невский", "Дмитрий Донской", "Пётр I", "Юрий Гагарин"],
+                correct: 0
+            },
+            {
+                question: "Кто создал первый автомат Калашникова?",
+                options: ["Михаил Калашников", "Василий Маргелов", "Георгий Жуков", "Сергей Королёв"],
+                correct: 0
+            },
+            {
+                question: "Кто был первым космонавтом?",
+                options: ["Юрий Гагарин", "Валентина Терешкова", "Сергей Королёв", "Алексей Леонов"],
+                correct: 0
+            },
+            {
+                question: "Кто основал Санкт-Петербург?",
+                options: ["Пётр I", "Екатерина II", "Александр Невский", "Дмитрий Донской"],
+                correct: 0
+            }
+        ];
+
+        // Загрузка лайков из localStorage
+        function loadLikes() {
+            const savedLikes = localStorage.getItem('heroLikes');
+            if (savedLikes) {
+                const likes = JSON.parse(savedLikes);
+                heroesData.forEach((hero, index) => {
+                    if (likes[index]) {
+                        hero.likes = likes[index];
+                    }
+                });
+            }
+        }
+
+        // Сохранение лайков
+        function saveLikes() {
+            const likes = heroesData.map(hero => hero.likes);
+            localStorage.setItem('heroLikes', JSON.stringify(likes));
+        }
+
+        // Обработка лайков
+        function handleLike(index, button) {
+            heroesData[index].likes++;
+            button.querySelector('.like-count').textContent = heroesData[index].likes;
+            button.classList.add('liked');
+            saveLikes();
+        }
+
+        // Озвучка текста
+        function speak(text) {
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'ru-RU';
+                window.speechSynthesis.cancel(); // Останавливаем предыдущую речь
+                window.speechSynthesis.speak(utterance);
+            } else {
+                alert('Ваш браузер не поддерживает озвучку');
+            }
+        }
+
+        // Создание карточек героев
+        function createHeroCards(heroes) {
+            const grid = document.getElementById('heroesGrid');
+            grid.innerHTML = '';
+            
+            heroes.forEach((hero, index) => {
+                const card = document.createElement('div');
+                card.className = 'hero-card';
+                card.innerHTML = `
+                    <div class="hero-image">
+                        <img src="${hero.image}" alt="${hero.name}" 
+                             onerror="this.src='https://via.placeholder.com/300x200/1a2a6c/ffffff?text=${encodeURIComponent(hero.name)}'">
+                    </div>
+                    <div class="hero-content">
+                        <h3>${hero.name}</h3>
+                        <p>${hero.description}</p>
+                        <div class="card-buttons">
+                            <button class="like-btn" onclick="handleLike(${index}, this)">
+                                👍 <span class="like-count">${hero.likes}</span>
+                            </button>
+                            <button class="speak-btn" onclick="speak('${hero.name}. ${hero.description}')">
+                                🔊 Слушать
+                            </button>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Поиск героев
+        function searchHeroes() {
+            const searchText = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = heroesData.filter(hero => 
+                hero.name.toLowerCase().includes(searchText)
+            );
+            createHeroCards(filtered);
+        }
+
+        // Сортировка героев
+        function sortHeroes(order) {
+            const sorted = [...heroesData].sort((a, b) => {
+                if (order === 'asc') {
+                    return a.name.localeCompare(b.name);
+                } else {
+                    return b.name.localeCompare(a.name);
+                }
+            });
+            createHeroCards(sorted);
+        }
+
+        // Создание карточек событий
+        function createEventCards() {
+            const eventsGrid = document.getElementById('eventsGrid');
+            eventsData.forEach(event => {
+                const card = document.createElement('div');
+                card.className = 'event-card';
+                card.innerHTML = `
+                    <div class="event-image">
+                        <img src="${event.image}" alt="${event.name}"
+                             onerror="this.src='https://via.placeholder.com/300x200/b21f1f/ffffff?text=${encodeURIComponent(event.name)}'">
+                    </div>
+                    <div class="event-content">
+                        <h3>${event.name}</h3>
+                        <p class="event-period">${event.period}</p>
+                        <p>${event.description}</p>
+                        <button class="speak-btn" onclick="speak('${event.name}. ${event.description}')">
+                            🔊 Слушать
+                        </button>
+                    </div>
+                `;
+                eventsGrid.appendChild(card);
+            });
+        }
+
+        // Создание викторины
+        function createQuiz() {
+            const quizContainer = document.getElementById('quizContainer');
+            
+            quizData.forEach((q, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'quiz-question';
+                questionDiv.innerHTML = `
+                    <p>${index + 1}. ${q.question}</p>
+                    <div class="quiz-options" id="quiz-${index}">
+                        ${q.options.map((opt, optIndex) => `
+                            <button class="quiz-option" onclick="checkAnswer(${index}, ${optIndex}, ${q.correct})">
+                                ${opt}
+                            </button>
+                        `).join('')}
+                    </div>
+                `;
+                quizContainer.appendChild(questionDiv);
+            });
+        }
+
+        // Проверка ответа в викторине
+        function checkAnswer(questionIndex, selectedIndex, correctIndex) {
+            const options = document.querySelectorAll(`#quiz-${questionIndex} .quiz-option`);
+            
+            options.forEach(opt => {
+                opt.disabled = true;
+            });
+            
+            if (selectedIndex === correctIndex) {
+                options[selectedIndex].classList.add('correct');
+                alert('✅ Правильно! Молодец!');
+            } else {
+                options[selectedIndex].classList.add('wrong');
+                options[correctIndex].classList.add('correct');
+                alert('❌ Неправильно. Правильный ответ выделен зелёным');
+            }
+        }
+
+        // Данные о событиях
         const eventsData = [
             {
                 name: "Дмитрий Донской",
@@ -331,95 +629,8 @@
                 period: "1730-1800 гг.",
                 description: "Великий русский полководец, не проигравший ни одного сражения. Разработал собственную военную теорию с знаменитым принципом 'глазомер, быстрота, натиск'. Прославился победами в русско-турецких войнах и Швейцарском походе. Автор труда 'Наука побеждать'. Генералиссимус российских сухопутных и морских сил.",
                 image: "images/aleksandr-suvorov-event.jpg"
-            },
-            {
-                name: "Фёдор Ушаков",
-                period: "1745-1817 гг.",
-                description: "Выдающийся русский флотоводец, адмирал. Не проиграл ни одного морского сражения. Создатель маневренной тактики парусного флота. Основатель Черноморского флота России. Канонизирован Русской православной церковью как святой праведный воин.",
-                image: "images/fedor-ushakov.jpg"
-            },
-            {
-                name: "Михаил Барклай-де-Толли",
-                period: "1761-1818 гг.",
-                description: "Выдающийся русский полководец, генерал-фельдмаршал. Герой Отечественной войны 1812 года. Разработал и успешно реализовал стратегию отступления русской армии. Эта стратегия позволила сохранить армию и подготовить контрнаступление. Командовал войсками в заграничных походах 1813-1814 годов.",
-                image: "images/barclay-de-tolly.jpg"
-            },
-            {
-                name: "Павел Нахимов",
-                period: "1802-1855 гг.",
-                description: "Выдающийся русский флотоводец, адмирал. Герой Крымской войны и обороны Севастополя. Командовал русской эскадрой, разгромившей турецкий флот в Синопском сражении. Руководил обороной Севастополя. Погиб на Малаховом кургане при обороне города.",
-                image: "images/pavel-nahimov.jpg"
-            },
-            {
-                name: "Подвиг Панфиловцев",
-                period: "1941 г.",
-                description: "Легендарный подвиг бойцов 316-й стрелковой дивизии под командованием генерала Панфилова. 28 героев-панфиловцев в ноябре 1941 года под Москвой остановили наступление 50 немецких танков. Ценой собственных жизней они не пропустили врага к столице. Их слова 'Велика Россия, а отступать некуда - позади Москва!' стали символом мужества. Подвиг вдохновил тысячи защитников Отечества.",
-                image: "images/panfilovcy.jpg"
-            },
-            {
-                name: "Подвиг Николая Гастелло",
-                period: "1941 г.",
-                description: "Подвиг советского военного лётчика, капитана Николая Гастелло. 26 июня 1941 года направил свой подбитый самолёт на скопление немецкой техники. Пожертвовал жизнью, чтобы нанести максимальный урон врагу. Его имя стало символом мужества и самопожертвования. Посмертно удостоен звания Героя Советского Союза.",
-                image: "images/nikolay-gastello.jpg"
-            },
-            {
-                name: "Подвиг пионера Лени Голикова",
-                period: "1941-1943 гг.",
-                description: "Подвиг юного партизана, пионера-героя Лёни Голикова. В 16 лет стал разведчиком партизанского отряда. Участвовал в 27 боевых операциях, уничтожил 78 немецких солдат и офицеров. Добыл важные документы, включая чертежи новых немецких мин. Посмертно удостоен звания Героя Советского Союза.",
-                image: "images/lena-golikov.jpg"
-            },
-            {
-                name: "Подвиг Владислава Хрустицкого",
-                period: "1942 г.",
-                description: "Подвиг командира 30-й отдельной гвардейской танковой бригады, полковника Владислава Хрустицкого. В январе 1942 года в критический момент боя вызвал огонь на себя. Его бригада прорвала вражескую оборону под Ленинградом. Погиб, обеспечивая успех наступательной операции. Посмертно удостоен звания Героя Советского Союза.",
-                image: "images/vladislav-hrustickiy.jpg"
             }
         ];
-
-        // Функция для создания карточек героев
-        function createHeroCards() {
-            const heroesGrid = document.querySelector('.heroes-grid');
-            heroesGrid.innerHTML = '';
-            
-            heroesData.forEach(hero => {
-                const card = document.createElement('div');
-                card.className = 'hero-card';
-                card.innerHTML = `
-                    <div class="hero-image">
-                        <img src="${hero.image}" alt="${hero.name}" 
-                             onerror="this.src='https://via.placeholder.com/300x200/1a2a6c/ffffff?text=${encodeURIComponent(hero.name)}'">
-                    </div>
-                    <div class="hero-content">
-                        <h3>${hero.name}</h3>
-                        <p>${hero.description}</p>
-                    </div>
-                `;
-                heroesGrid.appendChild(card);
-            });
-        }
-
-        // Функция для создания карточек событий
-        function createMemoryCards() {
-            const eventsGrid = document.querySelector('.events-grid');
-            eventsGrid.innerHTML = '';
-            
-            eventsData.forEach(event => {
-                const card = document.createElement('div');
-                card.className = 'event-card';
-                card.innerHTML = `
-                    <div class="event-image">
-                        <img src="${event.image}" alt="${event.name}"
-                             onerror="this.src='https://via.placeholder.com/300x200/b21f1f/ffffff?text=${encodeURIComponent(event.name)}'">
-                    </div>
-                    <div class="event-content">
-                        <h3>${event.name}</h3>
-                        <p class="event-period">${event.period}</p>
-                        <p>${event.description}</p>
-                    </div>
-                `;
-                eventsGrid.appendChild(card);
-            });
-        }
 
         // Переключение вкладок
         function setupTabs() {
@@ -438,9 +649,14 @@
 
         // Запуск
         document.addEventListener('DOMContentLoaded', () => {
-            createHeroCards();
-            createMemoryCards();
+            loadLikes();
+            createHeroCards(heroesData);
+            createEventCards();
+            createQuiz();
             setupTabs();
+            
+            // Поиск
+            document.getElementById('searchInput').addEventListener('input', searchHeroes);
         });
     </script>
 </body>
