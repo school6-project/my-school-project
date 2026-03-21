@@ -81,6 +81,7 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
+        /* Панель управления */
         .controls {
             display: flex;
             flex-wrap: wrap;
@@ -130,22 +131,7 @@
             color: white;
         }
 
-        .stop-all-btn {
-            padding: 0.8rem 1.5rem;
-            background: white;
-            border: 2px solid #b21f1f;
-            color: #b21f1f;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-
-        .stop-all-btn:hover {
-            background: #b21f1f;
-            color: white;
-        }
-
+        /* Стили для викторины */
         .quiz-section {
             background: white;
             border-radius: 10px;
@@ -276,6 +262,7 @@
             margin-bottom: 0.5rem;
         }
 
+        /* Кнопка лайка */
         .card-buttons {
             display: flex;
             gap: 0.5rem;
@@ -303,28 +290,6 @@
 
         .like-btn.liked {
             background: #1a2a6c;
-            color: white;
-        }
-
-        .speak-btn {
-            padding: 0.5rem 1rem;
-            background: #f8f9fa;
-            border: 2px solid #b21f1f;
-            border-radius: 5px;
-            color: #b21f1f;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            flex: 1;
-        }
-
-        .speak-btn:hover {
-            background: #b21f1f;
-            color: white;
-        }
-
-        .speak-btn.speaking {
-            background: #b21f1f;
             color: white;
         }
 
@@ -380,7 +345,6 @@
             <div class="sort-buttons">
                 <button class="sort-btn" onclick="sortHeroes('asc')">А-Я</button>
                 <button class="sort-btn" onclick="sortHeroes('desc')">Я-А</button>
-                <button class="stop-all-btn" onclick="stopAllSpeech()">🔇 Стоп</button>
             </div>
         </div>
         <div class="heroes-grid" id="heroesGrid">
@@ -408,66 +372,6 @@
     </footer>
 
     <script>
-        // ========== ПЕРЕМЕННАЯ ДЛЯ ОСТАНОВКИ ДИКТОРА ==========
-        let currentUtterance = null;
-
-        // ========== ФУНКЦИЯ ОСТАНОВКИ ВСЕХ ДИКТОРОВ ==========
-        function stopAllSpeech() {
-            if ('speechSynthesis' in window) {
-                window.speechSynthesis.cancel();
-                // Убираем класс speaking со всех кнопок
-                document.querySelectorAll('.speak-btn').forEach(btn => {
-                    btn.classList.remove('speaking');
-                });
-            }
-        }
-
-        // ========== ФУНКЦИЯ ОЗВУЧКИ С ВОЗМОЖНОСТЬЮ ОСТАНОВКИ ==========
-        function speak(text, button) {
-            if ('speechSynthesis' in window) {
-                // Если сейчас что-то говорит - останавливаем
-                if (window.speechSynthesis.speaking) {
-                    window.speechSynthesis.cancel();
-                    document.querySelectorAll('.speak-btn').forEach(btn => {
-                        btn.classList.remove('speaking');
-                    });
-                    
-                    // Если нажали на ту же кнопку - просто останавливаем и выходим
-                    if (button && button.classList.contains('speaking')) {
-                        button.classList.remove('speaking');
-                        return;
-                    }
-                }
-                
-                // Создаём новый поток
-                const utterance = new SpeechSynthesisUtterance(text);
-                utterance.lang = 'ru-RU';
-                utterance.rate = 0.9; // Скорость речи
-                utterance.pitch = 1; // Тон голоса
-                
-                // Когда начинает говорить
-                utterance.onstart = function() {
-                    if (button) button.classList.add('speaking');
-                };
-                
-                // Когда заканчивает говорить
-                utterance.onend = function() {
-                    if (button) button.classList.remove('speaking');
-                };
-                
-                // Если ошибка
-                utterance.onerror = function() {
-                    if (button) button.classList.remove('speaking');
-                };
-                
-                // Запоминаем текущий поток и запускаем
-                currentUtterance = utterance;
-                window.speechSynthesis.speak(utterance);
-            } else {
-                alert('Ваш браузер не поддерживает озвучку');
-            }
-        }
-
         // ========== ДАННЫЕ О ГЕРОЯХ (21 человек) ==========
         const heroesData = [
             {
@@ -696,7 +600,7 @@
             }
         ];
 
-        // ========== ЗАГРУЗКА И СОХРАНЕНИЕ ЛАЙКОВ ==========
+        // ========== ФУНКЦИИ ДЛЯ ЛАЙКОВ ==========
         function loadLikes() {
             const savedLikes = localStorage.getItem('heroLikes');
             if (savedLikes) {
@@ -714,7 +618,6 @@
             localStorage.setItem('heroLikes', JSON.stringify(likes));
         }
 
-        // ========== ОБРАБОТКА ЛАЙКОВ ==========
         function handleLike(index, button) {
             heroesData[index].likes++;
             button.querySelector('.like-count').textContent = heroesData[index].likes;
@@ -742,9 +645,6 @@
                             <button class="like-btn" onclick="handleLike(${index}, this)">
                                 👍 <span class="like-count">${hero.likes}</span>
                             </button>
-                            <button class="speak-btn" onclick="speak('${hero.name}. ${hero.description}', this)">
-                                🔊 Слушать
-                            </button>
                         </div>
                     </div>
                 `;
@@ -769,9 +669,6 @@
                         <h3>${event.name}</h3>
                         <p class="event-period">${event.period}</p>
                         <p>${event.description}</p>
-                        <button class="speak-btn" onclick="speak('${event.name}. ${event.description}', this)">
-                            🔊 Слушать
-                        </button>
                     </div>
                 `;
                 eventsGrid.appendChild(card);
@@ -802,6 +699,7 @@
         // ========== СОЗДАНИЕ ВИКТОРИНЫ ==========
         function createQuiz() {
             const quizContainer = document.getElementById('quizContainer');
+            quizContainer.innerHTML = '';
             
             quizData.forEach((q, index) => {
                 const questionDiv = document.createElement('div');
